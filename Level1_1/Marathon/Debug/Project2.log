@@ -1,0 +1,3 @@
+﻿  dong.cpp
+C:\Users\82109\source\repos\level1\Project2\dong.cpp(17,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  Project2.vcxproj -> C:\Users\82109\source\repos\level1\Debug\Project2.exe
