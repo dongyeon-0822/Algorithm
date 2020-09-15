@@ -1,0 +1,3 @@
+﻿  dong.cpp
+C:\Users\82109\source\repos\Level1_2\KeyPad\dong.cpp(31,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  KeyPad.vcxproj -> C:\Users\82109\source\repos\Level1_2\Debug\KeyPad.exe
