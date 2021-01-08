@@ -1,5 +1,5 @@
 # git-dong
-Study Algorithm
+Study Algorithm/Data Structure
 
 -Programmers 코딩테스트 문제
 
