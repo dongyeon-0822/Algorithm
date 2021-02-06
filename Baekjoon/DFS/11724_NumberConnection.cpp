@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <queue>
+#include <algorithm>
 using namespace std;
 
 class Node {
@@ -28,15 +30,18 @@ public:
 			b->adj.push_back(a);
 		}
 	}
-	void search(int i, int& count) {
+	bool search(int i) {
 		Node* a = nodes[i];
 		queue<Node*> q;
 
-		a->visited = true;
-		q.push(a);
+		if (a->visited == false) {
+			a->visited = true;
+			q.push(a);
+		}
+		else return false;
 		while (!q.empty()) {
 			Node* temp = q.front();
-			q.pop(); count++;
+			q.pop(); 
 			for (int i = 0; i < temp->adj.size(); i++) {
 				if (!temp->adj[i]->visited) {
 					temp->adj[i]->visited = true;
@@ -44,14 +49,26 @@ public:
 				}
 			}
 		}
+		return true;
 	}
 };
 int main() {
 	int N, M;
 	scanf("%d %d", &N, &M);
+	
+	Graph g;
+	g.createNode(N);
 
 	int a, b;
 	for (int i = 0; i < M; i++) {
 		scanf(" %d %d", &a, &b);
+		g.addEdge(a - 1, b - 1);
 	}
+	int count = 0;
+	for (int i = 0; i < N; i++) {
+		if (g.search(i)) {
+			count++;
+		}
+	}
+	printf("%d",count);
 }
