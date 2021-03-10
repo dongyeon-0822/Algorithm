@@ -1,8 +1,11 @@
 def solution(priorities, location):
     answer = 0
-    key=0
-    for i in priorities:
-        dic[key]=i
-        key+=1
+    queue=[]
+    for i in range(len(priorities)):
+        queue.append(i)
+    while True:
+        _max=max(priorities)
+        if priorities[queue[0]]==_max:
+
 
     return answer
