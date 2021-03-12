@@ -11,8 +11,9 @@ def solution(bridge_length, weight, truck_weights):
             del truck[0]
         for i in on_bridge:
             i[0]+=1
-            if i[0]==bridge_length:
-                on_weight-=i[1]
+        for i in on_bridge:
+            if i[0] == bridge_length:
+                on_weight -= i[1]
                 del on_bridge[0]
         answer+=1
     return answer+bridge_length
