@@ -1,16 +1,15 @@
+import heapq
 def solution(scoville, K):
     answer = 0
-    while True:
-        m=min(scoville)
+    heap=[]
+    for i in scoville:
+        heapq.heappush(heap,i)
+    while heap[0]<K:
+        if len(heap)==1 : return -1
         sco=0
-        if m>=K: break
-        else:
-            answer+=1
-            sco+=m
-            scoville.remove(m)
-            m=min(scoville)
-            sco+=2*m
-            scoville.remove(m)
-            scoville.append(sco)
-
+        answer += 1
+        sco += heapq.heappop(heap)
+        sco += 2 * heapq.heappop(heap)
+        heapq.heappush(heap, sco)
     return answer
+print(solution([0, 0, 3, 9, 10, 12], 7000))
