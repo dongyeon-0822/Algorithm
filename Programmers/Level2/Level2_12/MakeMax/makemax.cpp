@@ -5,23 +5,26 @@ using namespace std;
 
 string solution(string number, int k) {
     string answer = "";
+    int length = number.size() - k;
     while (k > 0) {
         int max = number[0];
         int len = k;
+        int index = 0;
         for (int i = 0; i < len + 1; i++) {
             if (number[i] > max)
                 max = number[i];
         }
         for (int i = 0; i < len + 1; i++) {
-            if (number[i] != max)
-                k -= 1;
-            else {
+            if (number[i] == max) {
+                index = i;
                 answer += number[i];
-                if (answer.size() == number.size() - len)
-                    break;
+                break;
             }
+            else k -= 1;
         }
-        number = number.substr(len + 1);
+        number = number.substr(index + 1);
+        if (answer.size() == length)
+            return answer;
     }
     answer += number;
     return answer;
