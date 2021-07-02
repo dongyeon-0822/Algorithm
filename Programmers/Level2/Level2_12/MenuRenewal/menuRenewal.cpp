@@ -58,8 +58,8 @@ vector<string> solution(vector<string> orders, vector<int> course) {
                 _buffer.push_back(buff);
                 buff.clear();
             } while (next_permutation(flag.begin(), flag.end()));
+            flag.clear();
         }
-        flag.clear();
         c.clear();
     }
     buffer.insert(buffer.end(), _buffer.begin(), _buffer.end());
