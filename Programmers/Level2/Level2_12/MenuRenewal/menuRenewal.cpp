@@ -10,6 +10,7 @@ using namespace std;
 vector<string> solution(vector<string> orders, vector<int> course) {
     vector<string> answer;
     vector<vector<char>> buffer;
+    vector<vector<char>> _buffer;
     vector<vector<char>> menu(20, vector<char>(0));
     map<string, int> m;
     
@@ -26,7 +27,9 @@ vector<string> solution(vector<string> orders, vector<int> course) {
             vector<char> buff(menu[i].size() + menu[j].size());
             auto iter = set_intersection(menu[i].begin(), menu[i].end(), menu[j].begin(), menu[j].end(), buff.begin());
             buff.erase(iter, buff.end());
-            buffer.push_back(buff);
+            if (buff.size() > 1) {
+                buffer.push_back(buff);
+            }
         }
     }
     sort(buffer.begin(), buffer.end());
@@ -38,28 +41,36 @@ vector<string> solution(vector<string> orders, vector<int> course) {
         for (int j = 0; j < buffer[i].size(); j++) {
             c.push_back(buffer[i][j]);
         }
-        for (int k = 0; k < course.size() && k < c.size(); k++) {
-            for (int j = 0; j < c.size() - k; j++) {
+        for (int k = 0; k < course.size() && course[k] < c.size(); k++) {
+            for (int j = 0; j < c.size() - course[k]; j++) {
                 flag.push_back(0);
             }
-            for (int j = 0; j < k; j++) {
+            for (int j = 0; j < course[k]; j++) {
                 flag.push_back(1);
             }
             do {
-                vector<char> buff(0);
-                for (int k = 0; k < flag.size(); k++) {
-                    if (flag[k] == 1) {
-                        buff.push_back(c[k]);
+                vector<char> buff;
+                for (int j = 0; j < flag.size(); j++) {
+                    if (flag[j] == 1) {
+                        buff.push_back(c[j]);
                     }
-                }buffer.push_back(buff);
+                }
+                _buffer.push_back(buff);
+                buff.clear();
             } while (next_permutation(flag.begin(), flag.end()));
         }
-        c.clear();
         flag.clear();
+        c.clear();
     }
+    buffer.insert(buffer.end(), _buffer.begin(), _buffer.end());
     sort(buffer.begin(), buffer.end());
     buffer.erase(unique(buffer.begin(), buffer.end()), buffer.end());
 
+    for (int i = 0; i < buffer.size(); i++) {
+        for (int j = 0; j < buffer[i].size(); j++) {
+            cout << buffer[i][j];
+        }cout << endl;
+    }
 
     //각 조합의 개수를 세고 map에 insert
     for (int i = 0; i < buffer.size(); i++) {
@@ -116,7 +127,7 @@ vector<string> solution(vector<string> orders, vector<int> course) {
     return answer;
 }
 int main() {
-    vector<string> orders = { "ABCDE", "AB", "CD","ADE","XYZ", "XYZ", "ACD" };
+    vector<string> orders = { "ABCFG", "AC", "CDE","ACDE","BCFG", "ACDEH"};
     vector<int> course = { 2,3,4 };
     solution(orders, course);
 
