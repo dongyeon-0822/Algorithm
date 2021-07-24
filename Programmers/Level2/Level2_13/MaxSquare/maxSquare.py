@@ -3,18 +3,14 @@ def solution(board):
     row = len(board)
     col = len(board[0])
 
-    for i in range(min(row,col), 0, -1): # 한 변의 길이
-        for r in range(0,row+1-i):
-            for c in range(0,col+1-i):
-                flag = 1
-                for _r in range(r, r + i):
-                    for _c in range(c, c + i):
-                        if board[_r][_c] == 0:
-                            flag = 0
-                            break
-                    if not flag: break
-                if flag:
-                    return i*i
-    return answer
+    for r in range(1,row):
+        for c in range(1,col):
+            if board[r][c]:
+                board[r][c]+=min(board[r-1][c-1],board[r-1][c],board[r][c-1])
 
-print(solution([[0,1,1,1],[1,1,1,1],[1,1,1,1],[0,0,1,0]]))
+    max_len=[]
+    for lst in board:
+        max_len.append(max(lst))
+    return max(max_len)**2
+
+print(solution(	[[0, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 1, 0]]))
