@@ -1,12 +1,16 @@
 def solution(n):
     answer = 0
-    for a in range(1,n): # 2a+n = N+1
-        flag = 0
-        for num in range(2,n):
-            if 2*a+num==n+1:
-                answer+=1
-                flag = 1
+    tmp = 0
+    for a in range(1,int(n/2)+1):
+        for b in range(a,a + int(n/2)+1):
+            tmp += b
+            if tmp == n:
+                answer += 1
+                tmp = 0
                 break
-        if flag:
-            break
+            elif tmp > n:
+                tmp = 0
+                break
     return answer+1
+
+solution(15)
