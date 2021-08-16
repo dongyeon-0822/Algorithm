@@ -9,5 +9,5 @@ def convert(num, base) :
         return convert(q, base) + tmp[r]
 
 if __name__ =='__main__':
-    N,B = map(int,input().split())
-    convert(int())
+    N,B = input().split()
+    print(int(N,int(B)))
