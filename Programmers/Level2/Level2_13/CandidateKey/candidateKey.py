@@ -14,15 +14,17 @@ def solution(relation):
     for i in range(2,len(col)+1):
         comb.extend(list(combinations(col,i)))
     for i in comb:
-        arr = [[0]*len(i) for _ in range(len(relation))]
+        arr = [[] for _ in range(len(relation))]
         for j in range(len(i)):
             for k in range(len(arr)):
                 arr[k].append(c[i[j]][k])
+        arr=[tuple(i) for i in arr]
         if len(arr)==len(set(arr)):
             flag = True
             for ck in comb_key:
                 if set(ck).issubset(set(i)):
                     flag=False
+                    break
             if flag:
                 comb_key.append(i)
 
