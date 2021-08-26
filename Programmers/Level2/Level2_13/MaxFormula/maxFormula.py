@@ -2,11 +2,11 @@ from itertools import permutations
 
 def cal(a,b,op):
     if op=='+':
-        return int(a)+int(b)
+        return a+b
     elif op=='-':
-        return int(a)-int(b)
+        return a-b
     elif op=='*':
-        return int(a)*int(b)
+        return a*b
 
 def solution(expression):
     answer = []
@@ -17,15 +17,21 @@ def solution(expression):
         if e.isdigit():
             n+=e
         else:
-            num.append(n)
+            num.append(int(n))
             op.append(e)
             n=''
+    num.append(int(n))
+
     for i in permutations(list(set(op)),len(set(op))):
+        _num=num.copy()
+        _op=op.copy()
         for j in i:
-            index = [idx for idx, x in enumerate(op) if x==j]
-            for idx in index:
-                num[idx] = cal(num[idx], num[idx+1],j)
-                num.pop(idx+1)
-                op.pop(idx)
-    answer.append(abs(num[0]))
+            while _op.count(j)!=0:
+                idx=_op.index(j)
+                _num[idx] = cal(_num[idx], _num[idx+1],j)
+                _num.pop(idx+1)
+                _op.pop(idx)
+        answer.append(abs(_num[0]))
     return max(answer)
+
+solution("100-200*300-500+20")
