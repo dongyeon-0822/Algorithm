@@ -1,11 +1,7 @@
-def is_right(s):
-    if s[0] not in ['A','B','C','D','E','F']:
-        return False
-    if 'A' not in s[1:]:
-        return False
-    if 'F' not in s[1:]:
-        return False
-    if 'C' not in s[1:]:
-        return False
+import re
 
-s = input()
+regex = re.compile('^[A-F]?A+F+C+[A-F]?$')
+T = int(input())
+for i in range(T):
+    line = input()
+    print("Infected!" if regex.match(line) else "Good")
