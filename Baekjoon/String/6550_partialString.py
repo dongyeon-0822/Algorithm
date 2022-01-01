@@ -1,14 +1,16 @@
+#반례 모르겠음
 s,t = input().split()
 
-idx = []
 result = True
-for i in s:
-    if i in t:
-        idx.append(t.index(i))
-    else:
-        result = False
-if idx != sorted(idx):
+idx = 0
+if set(s)&set(t) != set(s):
     result = False
+else:
+    for i in s:
+        if i not in t[idx:]:
+            result = False
+        else:
+            idx += t[idx:].index(i)
 
 if result:
     print('Yes')
