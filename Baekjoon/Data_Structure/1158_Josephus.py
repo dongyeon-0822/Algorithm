@@ -1,4 +1,3 @@
-# 시간초과
 N, K = list(map(int, input().split()))
 arr = []
 flag = [0] * N
@@ -7,17 +6,12 @@ for i in range(N):
 print('<', end="")
 idx = 0
 for i in range(N):
-    cnt = 0
-    while 0 in flag:
-        if not flag[idx]:
-            cnt += 1
-        if cnt == K:
-            cnt = 0
-            flag[idx] = 1
-            print(arr[idx], end="")
-            if 0 in flag:
-                print(", ", end="")
-        idx += 1
-        if idx >= N:
-            idx = 0
+    idx += K - 1
+    while idx >= len(arr):
+        idx -= len(arr)
+    pop = arr.pop(idx)
+    if i < N - 1:
+        print(pop, end=", ")
+    else:
+        print(pop, end="")
 print('>', end="")
