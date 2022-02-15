@@ -1,9 +1,10 @@
-#시간초과 미해결
 import sys
 input = sys.stdin.readline
 
+from collections import deque
+queue = deque()
+
 N = int(input())
-queue = []
 for i in range(N):
     cmd = input().split()
     if cmd[0] == 'push':
@@ -12,7 +13,7 @@ for i in range(N):
         if len(queue) == 0:
             print(-1)
         else:
-            print(queue.pop(0))
+            print(queue.popleft())
     elif cmd[0] == 'front':
         if len(queue) == 0:
             print(-1)
