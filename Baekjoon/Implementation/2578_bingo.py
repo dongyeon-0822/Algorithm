@@ -1,43 +1,45 @@
 import sys
 input = sys.stdin.readline
 
-board = []
-for i in range(5):
-    line = list(map(int, input().split()))
-    board.append(line)
+def check_bingo(check_board):
+    bingo = 0
+    for row in check_board: # 가로
+        if sum(row) == 5:
+            bingo += 1
+            if bingo == 3:
+                return True
+    for col in range(5): # 세로
+        if sum(list(zip(*check_board))[col]) == 5:
+            bingo += 1
+            if bingo == 3:
+                return True
+    if check_board[0][0]==check_board[1][1]==check_board[2][2]==check_board[3][3]==check_board[4][4]==1:
+        bingo += 1
+        if bingo == 3:
+            return True
+    if check_board[0][4]==check_board[1][3]==check_board[2][2]==check_board[3][1]==check_board[4][0]==1:
+        bingo += 1
+        if bingo == 3:
+            return True
 
-bingo = 0
-diagonal_1 = [(0,0), (1,1), (3,3), (4,4)]
-diagonal_2 = [(4,0), (3,1), (1,3), (0,4)]
+dic = {}
 for i in range(5):
-    flag_ = 0
     line = list(map(int, input().split()))
-    for l in line: # 입력받은 숫자 하나
-        flag = 0
-        for row,b in enumerate(board): # 보드에 있는지
-            if l in b:
-                col = b.index(l)
-                b[col] = 0
-                # 빙고 확인
-                if sum(b) == 0: # 가로
-                    bingo += 1
-                if sum([x[col] for x in board]) == 0: # 세로
-                    bingo += 1
-                if row == 2 and col == 2: # 대각선 둘다 검사
-                    if sum(board[x][x] for x in range(5)) == 0:
-                        bingo += 1
-                    if sum(board[x][4-x] for x in range(5)) == 0:
-                        bingo += 1
-                elif (row, col) in diagonal_1 and sum(board[x][x] for x in range(5)) == 0:
-                    bingo += 1
-                elif (row, col) in diagonal_2 and sum(board[x][4-x] for x in range(5)) == 0:
-                    bingo += 1
-                if bingo >= 3:
-                    print((i+1)*5 + col + 1)
-                    flag = 1
-                    break
-        if flag:
-            flag_ = 1
+    for j, l in enumerate(line):
+        dic[l] = (i,j)
+
+board = [[0]*5 for _ in range(5)]
+count = 0
+for i in range(5):
+    line = list(map(int, input().split()))
+    flag = False
+    for j, l in enumerate(line):
+        count += 1
+        r,c = dic[l]
+        board[r][c] = 1
+        if count >= 12 and check_bingo(board):
+            print(count)
+            flag = True
             break
-    if flag_:
+    if flag:
         break
