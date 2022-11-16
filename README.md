@@ -1,5 +1,4 @@
-# git-dong
-Study Algorithm/Data Structure
+# Algorithm
 
 -Programmers 코딩테스트 문제
 
