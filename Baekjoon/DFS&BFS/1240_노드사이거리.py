@@ -13,21 +13,15 @@ for _ in range(N-1):
 for _ in range(M):
     a,b = map(int, input().split())
     visited = [False] * (N + 1)
-    distance = 0
 
     q = deque()
-    q.append(a)
+    q.append([a,0])
     visited[a] = True
     while q:
-        x = q.popleft()
-        is_found = False
-        for nx, d in graph[x]:
+        x, d = q.popleft()
+        if x == b:
+            print(d)
+        for nx, nd in graph[x]:
             if not visited[nx]:
-                distance += d
-                if nx == b:
-                    print(distance)
-                    is_found = True
-                    break
-                q.append(nx)
-        if is_found:
-            break
+                visited[nx] = True
+                q.append([nx, d+nd])
