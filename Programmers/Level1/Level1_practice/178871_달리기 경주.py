@@ -1,16 +1,14 @@
 def solution(players, callings):
-    answer = []
-    dictionary = {i: players[i] for i in range(len(players))}
+    answer = [None] * len(players)
+    dictionary = {players[i]:i for i in range(len(players))} # [이름 : 숫자]
     for calling in callings:
-        num = -1
-        for k,v in dictionary.items():
-            if v == calling:
-                num = k
-                break
-        dictionary[k], dictionary[k-1] = dictionary[k-1], dictionary[k]
+        num = dictionary[calling]
+        players[num], players[num-1] = players[num-1], players[num]
+        dictionary[players[num]] = num
+        dictionary[players[num-1]] = num-1
 
-    for i in range(len(players)):
-        answer.append(dictionary[i])
+    for k,v in dictionary.items():
+        answer[v] = k
     return answer
 
 print(solution(["mumu", "soe", "poe", "kai", "mine"], ["kai", "kai", "mine", "mine"]))
