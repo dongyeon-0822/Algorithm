@@ -18,32 +18,31 @@ def solution(plans):
     plans = sorted(plans, key=lambda x: x[1])
     stack = []
     idx = 0
+    current_time = '00:00'
+
     while stack or idx < len(plans):
-        if len(stack) == 0: # 현재 진행 중인 plan 없는 경우
+        if not stack: # 현재 진행 중인 plan 없는 경우
             name, start, playtime = plans[idx]
-            stack = [[name, playtime]]
+            stack.append([name, playtime])
+            current_time = start
             idx += 1
 
         name, playtime = stack.pop()
-        if idx < len(plans):
-            _name, _start, _playtime = plans[idx]
-        else:
-            _start = '99:99'
-
         end = past_time(start, int(playtime))
-        if end > _start: # 새로운 과제 시작
-            stack.append([name, sub_time(_start, end)])
-            stack.append([_name, _playtime])
-            start = _start
+
+        if idx < len(plans):
+            next_name, next_start, next_playtime = plans[idx]
+        else:
+            next_start = '99:99'
+
+        if end > next_start:  # 새로운 과제 시작
+            stack.append([name, sub_time(next_start, end)])
+            stack.append([next_name, next_playtime])
+            current_time = next_start
             idx += 1
-        elif end < _start: # 진행 중인 과제 종료
+        else:  # 진행 중인 과제 종료
             answer.append(name)
-            start = end
-        else: # 과제 종료 및 새로운 과제 시작
-            answer.append(name)
-            stack.append([_name, _playtime])
-            start = _start
-            idx += 1
+            current_time = end
 
     return answer
 
