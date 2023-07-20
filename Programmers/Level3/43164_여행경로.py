@@ -1,23 +1,26 @@
-from collections import deque
+def dfs(graph, path, length):
+    if len(path) == length:
+        return path
+    i = 0
+    while graph.get(path[-1], 0) and i < len(graph[path[-1]]):
+        visited, end = graph[path[-1]][i]
+        if not visited:
+            graph[path[-1]][i][0] = True
+            result = dfs(graph, path + [end], length)
+            if result : return result
+            graph[path[-1]][i][0] = False
+        i += 1
+
+
 def solution(tickets):
     answer = []
     dic = {}
     for a, b in tickets:
-        dic.setdefault(a, []).append(b)
+        dic.setdefault(a, []).append([False,b])
+    for k in dic.keys():
+        dic[k].sort(key = lambda x:x[1])
+    print(dic)
+    answer = dfs(dic, ['ICN'], len(tickets) + 1)
+    return answer
 
-    q = deque()
-    node = 'ICN'
-    q.append(node)
-
-    while tickets:
-        x = q.popleft()
-        for n_node in dic[x]:
-            q.append(n_node)
-
-        answer.append(node)
-        while n_node := dic.get(node):
-            answer.append(n_node[0])
-            node = dic[node].pop(0)
-        return answer
-
-print(solution([["ICN", "BOO"], ["ICN", "COO"], ["COO", "DOO"], ["DOO", "COO"], ["BOO", "DOO"], ["DOO", "BOO"], ["BOO", "ICN"], ["COO", "BOO"]]))
+print(solution([["ICN", "JFK"], ["ICN", "AAD"], ["JFK", "ICN"]]))
