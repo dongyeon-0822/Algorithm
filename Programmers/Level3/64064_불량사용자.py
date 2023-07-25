@@ -1,5 +1,5 @@
 import re
-from itertools import product
+from itertools import product,combinations_with_replacement
 
 def solution(user_id, banned_id):
     answer = set()
@@ -10,12 +10,22 @@ def solution(user_id, banned_id):
         for j, u in enumerate(user_id):
             if re.compile(b).fullmatch(u):
                 results[i].append(j)
-    
-    for result in list(product(*results)):
+
+    # 중복 제거
+    results.sort()
+    stack = []
+    for result in results:
+        if stack and stack[-1] == result:
+            stack.pop()
+        else:
+            stack.append(result)
+
+    for result in list(product(*stack)):
         tmp = tuple(set(result))
-        if len(tmp) == len(results):
+        if len(tmp) == len(stack):
             answer.add(tmp)
+            print(tmp)
 
     return len(answer)
 
-print(solution(["frodo", "fradi", "crodo", "abc123", "frodoc"],["fr*d*", "*rodo", "******", "******"]))
+print(solution(	["frodo", "fradi", "crodo", "abc123", "frodoc"], ["*rodo", "*rodo", "******"]))
