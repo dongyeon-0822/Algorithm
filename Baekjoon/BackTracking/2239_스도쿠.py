@@ -1,41 +1,29 @@
-# 시간초과 미해결
-
 import sys
 input = sys.stdin.readline
 
-def is_promising(row, col, num):
-    if num in sudoku[row]:
-        return False
-    if num in list(zip(*sudoku))[col]:
-        return False
-    for x in range(row//3 * 3, row//3 * 3 + 3):
-        for y in range(col//3 * 3, col//3 * 3 + 3):
-            if num == sudoku[x][y]:
-                return False
-    return True
 
-def print_sudoku(arr):
-    for row in arr:
-        for x in row:
-            print(x, end="")
-        print()
+def dfs(count):
+    if count == len(zeros):
+        for line in sudoku:
+            print(*line, sep="")
+        sys.exit(0)
 
-def dfs(r, c):
-    if r == c == 8:
-        print_sudoku(sudoku)
-        return True
-    nr = r + 1 if c == 8 else r
-    nc = 0 if c == 8 else c + 1
+    r, c = zeros[count]
+    promising = [False] * 10
+    for i in range(9):
+        if sudoku[r][i]: promising[sudoku[r][i]] = True
+        if sudoku[i][c]: promising[sudoku[i][c]] = True
+    for i in range(r//3*3, r//3*3 + 3):
+        for j in range(c//3*3, c//3*3 + 3):
+            if sudoku[i][j]:
+                promising[sudoku[i][j]] = True
 
-    if sudoku[r][c] != 0:
-        if dfs(nr, nc): return True
-    else:
-        for n in range(1,10):
-            if is_promising(r,c,n):
-                sudoku[r][c] = n
-                if dfs(nr, nc): return True
-        sudoku[r][c] = 0
-    return False
+    for n in range(1,10):
+        if not promising[n]:
+            sudoku[r][c] = n
+            dfs(count + 1)
+            sudoku[r][c] = 0
 
 sudoku = [list(map(int, input().rstrip())) for _ in range(9)]
-dfs(0,0)
+zeros = [(i, j) for i in range(9) for j in range(9) if sudoku[i][j] == 0]
+dfs(0)
