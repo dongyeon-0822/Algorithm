@@ -1,0 +1,37 @@
+# 공부하기 
+from collections import defaultdict
+
+v = defaultdict(list)
+dp = [None] * 100050
+inf = int(1e12)
+
+
+def dfs(x: int, par: int):
+    global dp, v
+
+    ret = inf
+
+    for nxt in v[x]:
+        if nxt == par:
+            continue
+
+        dfs(nxt, x)
+        ret = min(ret, dp[nxt])
+
+    if ret == inf:
+        ret = 0
+
+    dp[x] = x - ret
+
+
+n = int(input())
+
+for _ in range(1, n):
+    a, b = (map(int, input().split()))
+    v[a].append(b)
+    v[b].append(a)
+
+dfs(1, 0)
+
+for i in range(1, n + 1):
+    print('1' if dp[i] >= 0 else '0')
